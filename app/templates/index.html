@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Website sinh mô tả ảnh</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center; /* Căn giữa nội dung */
+            padding-top: 40px; /* Thêm padding ở đầu trang */
+            margin: 0;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 50%; /* Điều chỉnh chiều rộng của container */
+            margin: auto; /* Căn giữa container */
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            align-items: center; /* Căn giữa các thành phần bên trong form */
+        }
+
+        label {
+            margin-bottom: 10px;
+        }
+
+        input[type="file"], input[type="text"] {
+            width: 80%; /* Điều chỉnh chiều rộng của input */
+            padding: 10px;
+            margin-bottom: 20px; /* Khoảng cách giữa các input */
+        }
+
+        input[type="submit"] {
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+        }
+
+        .errors, .image-preview {
+            margin-top: 20px;  /* Tạo khoảng cách giữa các phần khác nhau */
+        }
+
+        .file-input-preview {
+            max-width: 100%; /* Điều chỉnh kích thước tối đa của ảnh */
+            height: auto;
+            border-radius: 8px; /* Làm tròn góc ảnh */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ cho ảnh */
+        }
+
+        .prediction {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .prediction h3 {
+            font-size: 20px;
+            color: #333;
+        }
+
+        .prediction ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .prediction ul li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Công cụ sinh mô tả ảnh</h2>
+        <form action="/" method="post" enctype="multipart/form-data">
+            <label for="fileUpload">Chọn ảnh để tải lên:</label>
+            <input type="file" name="image" accept="image/*" required>
+            <input type="submit" value="Sinh mô tả">
+        </form>
+    </div>
+
+    <!-- Kiểm tra và hiển thị kết quả dự đoán -->
+    {% if prediction %}
+    <div class="container prediction">
+        <h3>Kết quả dự đoán:</h3>
+        <ul>
+            {% for caption in prediction %}
+                <li>{{ caption }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <!-- Hiển thị ảnh đã tải lên (nếu có) -->
+    {% if image_data %}
+    <div class="container image-preview">
+        <img class="file-input-preview" src="data:image/jpeg;base64,{{ image_data }}" alt="Image Preview">
+    </div>
+    {% endif %}
+</body>
+</html>
